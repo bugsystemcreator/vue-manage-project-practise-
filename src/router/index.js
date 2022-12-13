@@ -5,9 +5,10 @@ import Home from '../views/Home'
 import Mall from '../views/Mall'
 import PageOne from '../views/others/PageOne'
 import PageTwo from '../views/others/PageTwo'
-
-export default new VueRouter({
-    mode:'history',
+import Login from '../views/Login'
+import Cookie from 'js-cookie'
+  const router=new VueRouter({
+    mode:'hash',
     routes:[
         {
             path:'/',
@@ -40,6 +41,24 @@ export default new VueRouter({
                 component:PageTwo
             }
             ]
-        }
-    ]
+        },
+        {
+          path:'/login',
+          name:'login',
+          component:Login
+        },
+    ],
 })
+router.beforeEach((to,from,next)=>{
+  const token=Cookie.get('token')
+  if(!token&&to.name!=='login'){
+    next({name:'login'})
+  }
+  else if(token&&to.name=='login'){
+    next({name:''})
+  }
+  else{
+    next()
+  }
+})
+export default router
