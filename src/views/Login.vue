@@ -3,7 +3,7 @@
         <div class="loginwrapper">
             <el-form ref="form" :model="form" label-width="80px" :rules="rules">
                 <h3>系统登录</h3>
-                <el-form-item label="账号" prop="name">
+                <el-form-item label="账号" prop="username">
                     <el-input v-model="form.username" placeholder="请输入账号"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
@@ -29,7 +29,8 @@ export default {
                 password: ''
             },
             rules: {
-                name: [{ required: true, message: '请输入账号名称', trigger: 'blur' }],
+                username: [{ required: true, message: '请输入账号名称', trigger: 'blur' },
+            {min:3,max:5,message:'长度控制在三到五个字符',trigger: 'blur' }],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
             }
         }
@@ -39,6 +40,9 @@ export default {
         const token=Mock.Random.guid()
         Cookie.set('token',token)
         console.log('submit')
+        location.reload();
+        this.$router.go(0);
+
     }
   }
 }
